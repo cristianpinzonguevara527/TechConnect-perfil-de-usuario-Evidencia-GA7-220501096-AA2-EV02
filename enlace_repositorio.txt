@@ -1,0 +1,6 @@
+Repositorio del proyecto TechConnect - Modulo Perfil de Usuario (AA2_EV02)
+
+Enlace: [PEGA AQUI EL ENLACE DE TU REPOSITORIO DE GITHUB/GITLAB DESPUES DE HACER PUSH]
+
+Ejemplo:
+https://github.com/tu-usuario/techconnect-perfil-servlets
