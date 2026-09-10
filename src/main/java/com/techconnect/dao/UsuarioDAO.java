@@ -61,4 +61,20 @@ public class UsuarioDAO {
         usuarios.put(usuarioActualizado.getCorreo(), usuarioActualizado);
         return true;
     }
+
+    /**
+     * Cambia la contrasena de un usuario, verificando primero que la
+     * contrasena actual sea correcta (HU-03: Cambiar contrasena).
+     *
+     * @return true si la contrasena actual coincidia y el cambio se aplico
+     */
+    public boolean cambiarPassword(String correo, String passwordActual, String passwordNueva) {
+        Usuario usuario = usuarios.get(correo);
+        if (usuario == null || !usuario.getPassword().equals(passwordActual)) {
+            return false;
+        }
+        usuario.setPassword(passwordNueva);
+        usuarios.put(correo, usuario);
+        return true;
+    }
 }

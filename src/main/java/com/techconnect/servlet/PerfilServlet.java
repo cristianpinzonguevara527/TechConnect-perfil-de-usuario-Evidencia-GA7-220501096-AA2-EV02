@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * Servlet del modulo "Perfil de usuario" de TechConnect.
@@ -22,6 +23,15 @@ import java.io.IOException;
 public class PerfilServlet extends HttpServlet {
 
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+    // Solo letras (con tildes/enye) y espacios, entre 3 y 50 caracteres.
+    // Evita numeros y caracteres especiales en nombre/apellido.
+    private static final Pattern PATRON_NOMBRE =
+            Pattern.compile("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,50}$");
+
+    // Solo digitos, entre 7 y 10 caracteres (numero de telefono colombiano).
+    private static final Pattern PATRON_TELEFONO =
+            Pattern.compile("^[0-9]{7,10}$");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -63,9 +73,17 @@ public class PerfilServlet extends HttpServlet {
 
         String mensaje;
 
+        // --- Validaciones de HU-02 (Actualizar informacion del perfil) ---
         if (nombre == null || nombre.trim().isEmpty()
                 || apellido == null || apellido.trim().isEmpty()) {
             mensaje = "El nombre y el apellido son obligatorios. No se guardaron los cambios.";
+        } else if (!PATRON_NOMBRE.matcher(nombre.trim()).matches()) {
+            mensaje = "El nombre solo puede contener letras y espacios (3 a 50 caracteres). No se guardaron los cambios.";
+        } else if (!PATRON_NOMBRE.matcher(apellido.trim()).matches()) {
+            mensaje = "El apellido solo puede contener letras y espacios (3 a 50 caracteres). No se guardaron los cambios.";
+        } else if (telefono != null && !telefono.trim().isEmpty()
+                && !PATRON_TELEFONO.matcher(telefono.trim()).matches()) {
+            mensaje = "El telefono debe tener entre 7 y 10 digitos numericos, sin letras ni caracteres especiales. No se guardaron los cambios.";
         } else {
             usuarioActual.setNombre(nombre.trim());
             usuarioActual.setApellido(apellido.trim());
@@ -84,6 +102,8 @@ public class PerfilServlet extends HttpServlet {
         request.setAttribute("usuario", usuarioActual);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("perfil.jsp");
-        dispatcher.forward(request, response);
-    }
+            dispatcher.forward(request, response);
 }
+}
+        
+

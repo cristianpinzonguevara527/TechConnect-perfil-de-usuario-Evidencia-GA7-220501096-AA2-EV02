@@ -13,6 +13,7 @@
         <h1 class="logo">Tech<span>Connect</span></h1>
         <nav>
             <span>Hola, <c:out value="${usuario.nombre}"/></span>
+            <a href="cambiar-password" class="enlace-salir">Cambiar contrasena</a>
             <a href="logout" class="enlace-salir">Cerrar sesion</a>
         </nav>
     </header>
@@ -36,12 +37,16 @@
                 <div class="fila">
                     <div class="campo">
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" value="${usuario.nombre}" required>
+                        <input type="text" id="nombre" name="nombre" value="${usuario.nombre}" required
+                               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,50}" minlength="3" maxlength="50"
+                               title="Solo letras y espacios, entre 3 y 50 caracteres">
                     </div>
 
                     <div class="campo">
                         <label for="apellido">Apellido</label>
-                        <input type="text" id="apellido" name="apellido" value="${usuario.apellido}" required>
+                        <input type="text" id="apellido" name="apellido" value="${usuario.apellido}" required
+                               pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,50}" minlength="3" maxlength="50"
+                               title="Solo letras y espacios, entre 3 y 50 caracteres">
                     </div>
                 </div>
 
@@ -54,7 +59,8 @@
                 <div class="fila">
                     <div class="campo">
                         <label for="telefono">Telefono</label>
-                        <input type="tel" id="telefono" name="telefono" value="${usuario.telefono}" placeholder="3001234567">
+                        <input type="tel" id="telefono" name="telefono" value="${usuario.telefono}" placeholder="3001234567"
+                               pattern="[0-9]{7,10}" maxlength="10" title="Solo numeros, entre 7 y 10 digitos">
                     </div>
 
                     <div class="campo">
